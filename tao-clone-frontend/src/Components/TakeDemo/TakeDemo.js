@@ -1,11 +1,29 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import axios from 'axios'
 
 const TakeDemo = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [company, setCompany] = useState("");
+
+  const takeDemo = async(e)=>{
+    e.preventDefault();
+    const msg = document.querySelector('.msg')
+    const user = {name: name, email: email, phoneNo: phone, companyName: company}
+    try{
+      const res = await axios.post('http://localhost:8080/demo', user);
+      console.log(res.data);
+      if(res.status === 200){
+        msg.innerHTML = res.data
+      }
+    }
+    catch(err){
+      console.log(err);
+    }
+  }
+
 
   return (
     <Container>
@@ -40,7 +58,8 @@ const TakeDemo = () => {
         </ul>
       </Info>
       <Form>
-        <form>
+        <h3 className="msg"></h3>
+        <form onSubmit={takeDemo}>
           <div>
             <span>Full Name *</span>
             <input
@@ -148,6 +167,10 @@ const Form = styled.div`
     flex-direction: column;
     gap: 10px;
   }
+  .msg{
+    color: green;
+    font-size: 0.9rem;
+  }
   span {
     font-size: 0.9rem;
     font-weight: 600;
@@ -173,5 +196,9 @@ const Form = styled.div`
     font-weight: 550;
     border-radius: 40px;
     margin-top: 50px;
+    cursor: pointer;
+  }
+  button:hover{
+    background: #ba2025;
   }
 `;

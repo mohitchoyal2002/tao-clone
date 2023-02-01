@@ -16,6 +16,10 @@ const userTemplete = mongoose.Schema({
   companyName:{
     type: String,
     required: true
+  },
+  password:{
+    type: String,
+    required: true
   }
 })
 

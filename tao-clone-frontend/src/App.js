@@ -7,6 +7,7 @@ import Resources, { Resourcedown } from './Components/Resources/Resources'
 import KnowledgeBase, { Resou } from './Components/KnowledgeBase/KnowledgeBase'
 import TakeDemo from './Components/TakeDemo/TakeDemo'
 import Footer from './Components/Footer';
+import TestLogin from './Components/Demo Test/TestLogin';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path='/resources' element={<><Resources/> <Resourcedown/></>}/>
           <Route path='/knowledge-base' element = {<><KnowledgeBase/> <Resou/> </>}/>
           <Route path='/demo' element={<TakeDemo/>}/>
+          <Route path='test-login' element={<TestLogin/>}/>
         </Routes>
         <Footer/>
     </Wrap>
