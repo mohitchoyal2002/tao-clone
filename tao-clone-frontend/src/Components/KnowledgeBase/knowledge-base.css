@@ -1,0 +1,204 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;600;700;800;900&display=swap');
+.tao {
+  padding: 70px 300px;
+  background-image: linear-gradient(135deg, #BB2225 0%, #F2A341 100%);
+  text-align: center;
+  clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+}
+
+.heading {
+  color: #fff;
+  font-family: "Nunito Sans","sans-serif";
+  font-size: 50px;
+  font-weight: bold;
+  letter-spacing: -0.93px;
+  line-height: 70px;
+  margin-bottom: 20px;
+}
+.pragraph {
+  color: #fff;
+  font-family: "Nunito Sans","sans-serif";
+  font-size: 18px;
+  letter-spacing: 0;
+  line-height: 30px;
+  margin-bottom: 40px;
+  font-weight: 200;
+}
+.know {
+  color: #fff;
+  padding: 142px 330px 130px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url(https://www.taotesting.com/wp-content/uploads/2019/04/tao-cta-bg.svg);
+}
+.more {
+  font-weight: 800;
+}
+.main-doc {
+  font-weight: 300;
+  font-size: 30px;
+}
+
+.btn-contact {
+  background: #fff;
+  color: #ba2025;
+  border: 0;
+  border-radius: 40px;
+  padding: 0.8em 2.2em;
+  letter-spacing: 1.14px;
+  font-size: 16px;
+  display: inline-block;
+  font-weight: 900;
+}
+
+
+
+
+
+
+
+#gh{
+    display: flex;
+}
+.image img{
+    height: 100px;
+    width:100px;
+    margin-top: 0px;
+    margin-right: auto;
+    margin-bottom:auto;
+    margin-left: auto;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.button {
+    margin-top: 120px;
+    padding: 11px 37px;
+    border: none;
+    background-color: #ba2025;
+    text-align: center;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 15px;
+}
+.card {
+    padding: 40px 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 0 25px rgb(0 0 0 / 10%);
+    background-color: #fff;
+    text-align: center;
+}
+#container{
+    display: flex;
+    justify-content: space-between;
+}
+section.main-card--cointainer {
+    margin: 20px 200px;
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+.gh {
+    width: 33.33%;
+    width: calc(33.33% - 40px);
+}
+
+.main-div{
+    display: block;
+    -webkit-box-shadow: -4px 4px 15px 0 rgb(0 0 0 / 10%);
+    box-shadow: -4px 4px 15px 0 rgb(0 0 0 / 10%);
+    margin: 25px;
+    height: 275px;
+    width: 330px;
+    background-color: #fff;
+    transition: .5s ease-in-out;
+}
+
+
+.image-div{
+    height: 30px;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+}
+.rit h2 {
+    color: #ba2025;
+    font-family: "Nunito Sans","sans-serif";
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    line-height: 19px;
+    text-transform: uppercase;
+}
+.rit p {
+    color: #102232;
+    font-family: "Nunito Sans","sans-serif";
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0;
+    line-height: 30px;
+    margin-top: 15px;
+    margin-bottom: 0;
+}
+.down-card p {
+    color: #999896;
+    font-family: "Nunito Sans","sans-serif";
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    line-height: 18px;
+    text-transform: uppercase;
+    margin-top: 40px;
+    margin-bottom: 30px;
+}
+section.up{
+    
+    clear: both;
+    background-color:#fffcf3;
+    padding-top: 4.375em;
+    padding-bottom: 3.75em;
+    
+    
+    display: flex;
+    flex-direction: row;
+    
+    
+}
+.re{
+    margin-left: 30px; 
+    margin-right: 10px;
+    
+    /* transform: scale(1);
+    transition: transform 0.5s ease; */
+    transform: translateY(0); /* The card's default position */
+    transition: transform 0.2s ease-in-out; /* Smooth transition */
+}
+.re:hover {
+    /* transform: scale(1.2); */
+    transform: translateY(-10px);
+  }
+  
+  
+  
+  
+  
+  
+    /* align-items: center;
+    transform: rotateY(0deg);
+  transition: transform 0.5s ease;
+
+}
+.re:hover {
+    transform: rotateY(30deg);
+  } */
+
+
+.resource{
+    margin: 40px;
+}
+   
+
