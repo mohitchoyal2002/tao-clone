@@ -8,7 +8,7 @@ import CopyrightIcon from '@mui/icons-material/Copyright';
 
 const Footer = () => {
   return (
-    <Container>
+    <Container className="footer">
       <HeaderDiv>
         <Logo>
           <img src="/images/logo2.svg" alt="" />
