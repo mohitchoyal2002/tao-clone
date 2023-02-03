@@ -8,15 +8,24 @@ const TakeDemo = () => {
   const [phone, setPhone] = useState("");
   const [company, setCompany] = useState("");
 
+
+  const declareBlank = ()=>{
+    setName('')
+    setEmail('')
+    setCompany('')
+    setPhone('')
+  }
+
   const takeDemo = async(e)=>{
     e.preventDefault();
     const msg = document.querySelector('.msg')
     const user = {name: name, email: email, phoneNo: phone, companyName: company}
     try{
       const res = await axios.post('http://localhost:8080/demo', user);
-      console.log(res.data);
+      console.log(res);
       if(res.status === 200){
-        msg.innerHTML = res.data
+        declareBlank()
+        msg.innerHTML = res.data.data
       }
     }
     catch(err){

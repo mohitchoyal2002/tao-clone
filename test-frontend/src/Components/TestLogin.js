@@ -9,6 +9,7 @@ const TestLogin = () => {
 
   return (
     <Container>
+      <h1>Login to Verify and Start The Test</h1>
       <form>
         <input type="email" placeholder='Email' onChange={(e)=>setEmail(e.target.value)} value={email} required/>
         <input type="password" placeholder='Password' onChange={(e)=>setPassword(e.target.value)} value={password} required/>
@@ -22,12 +23,17 @@ export default TestLogin
 
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  color: #fff;
   background: url('/images/background.jpg');
   background-position: center;
   background-size: cover;
+  h1{
+    margin-bottom: 50px;
+  }
   form{
     display: flex;
     flex-direction: column;
