@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
+import axios from 'axios'
 
 const OrgSignUp = () => {
   const [orgName, setOrgName] = useState("");
@@ -11,10 +13,56 @@ const OrgSignUp = () => {
   const msg = document.getElementById('msg')
   const btn = document.getElementById('sub_btn')
 
+  const change = (e)=>{
+    const err = document.getElementById('pass')
+    const pass = e.target.value
+    if(pass !== password){
+      err.innerText = 'Password is not matching'
+      btn.disabled = true;
+    }
+    else{
+      err.innerText = ''
+      btn.disabled = false;
+    }
+    setRe_password(pass)
+  }
+
+  const disable = ()=>{
+    btn.disabled = true;
+  }
+  const enable = ()=>{
+    setOrgName('')
+    setEmail('')
+    setPhoneNo('')
+    setPassword('')
+    setRe_password('')
+    btn.disabled = false;
+    msg.innerText = ''
+  }
+
+  const signup = async(e)=>{
+    e.preventDefault()
+    disable()
+    const org = {name: orgName, email: email, phoneNo: phoneNo, password: password}
+
+    try{
+      const res = await axios.post('http://localhost:8080/org/signup', org)
+      msg.innerText = 'You have been Registered, Please Login'
+      msg.style.color = 'green'
+    }
+    catch(err){
+      msg.innerText='This email id has already registered'
+      msg.style.color='red'
+    }
+    finally{
+      enable()
+    }
+  }
+
   return (
     <Container>
       <Info>
-        <h1>Register for Taking Test</h1>
+        <h1>Register for Organizing Test</h1>
         <h3>
           Welcome to the registration page of TAO Assesment. To get started,
           please fill out the form with your personal information. This will
@@ -45,7 +93,7 @@ const OrgSignUp = () => {
       </Info>
       <Form>
         <p id="msg"></p>
-        <form>
+        <form onSubmit={signup}>
           <div>
             <span>Org. Name *</span>
             <input
@@ -97,18 +145,18 @@ const OrgSignUp = () => {
           </div>
           <div>
             <span>Re-Type Your Password *</span>
+            <span id="pass"></span>
             <input
               type="password"
               placeholder="Re-Type Password"
               required
-              onChange={(e) => {
-                setRe_password(e.target.value);
-              }}
+              onChange={(e) => change(e)}
               value={re_password}
             />
           </div>
           <button id="sub_btn">Sign Up</button>
         </form>
+        <p>Already member? <CustomLink to = '/org-login'>Login</CustomLink></p>
       </Form>
     </Container>
   );
@@ -165,6 +213,7 @@ const Form = styled.div`
     flex-direction: column;
     align-items: center;
     gap: 30px;
+    margin-bottom: 100px;
   }
   div {
     display: flex;
@@ -179,6 +228,9 @@ const Form = styled.div`
     font-size: 0.9rem;
     font-weight: 600;
     letter-spacing: 2px;
+  }
+  #pass{
+    color: red;
   }
   input {
     height: 45px;
@@ -213,5 +265,15 @@ const Form = styled.div`
   button:disabled {
     filter: brightness(70%);
     background: #ba2025;
+    cursor: not-allowed;
+  }
+  p{
+    font-size: 1rem;
   }
 `;
+
+const CustomLink = styled(Link)`
+  color: inherit;
+  font-size: 1rem;
+  font-weight: 550;
+`

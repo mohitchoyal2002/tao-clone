@@ -3,6 +3,7 @@ const dotenv = require('dotenv')
 const cors = require('cors')
 const mongoose = require('mongoose');
 const router = require('./Routers/userRouters');
+const orgRouter = require('./Routers/OrgRouter')
 
 const app = express();
 app.use(express.json())
@@ -18,6 +19,8 @@ mongoose.connect(process.env.DATABASE_URL, ()=>{
 const port = process.env.PORT || 4000
 
 app.use('/', router)
+
+app.use('/org', orgRouter)
 
 app.listen(port, ()=>{
   console.log(`Server is Up and Running at Port: ${port}`);

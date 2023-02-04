@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
-import {useNavigate} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 
 
 const OrgLogin = () => {
@@ -10,16 +10,40 @@ const OrgLogin = () => {
   const [password, setPassword] = useState('')
 
   const msg = document.getElementById('msg')
+  const btn = document.getElementById('btn')
+
+  const login = async(e)=>{
+    e.preventDefault();
+    const org = {email, password};
+
+    try{
+      btn.disabled = true;
+      const res = await axios.post('http://localhost:8080/org/login', org)
+      console.log(res.data)
+      msg.innerText = res.data
+    }
+    catch(err){
+      console.log(err);
+      msg.innerText = 'Error: something went wrong'
+      msg.style.color = 'red'
+    }
+    finally{
+      btn.disabled = false;
+      setEmail('')
+      setPassword('')
+    }
+  }
 
   return (
     <Container id = 'con'>
       <h1>Welcome Again, Please Login</h1>
       <h2 id='msg'></h2>
-      <form>
+      <form onSubmit={login}>
         <input type="email" placeholder='Email' onChange={(e)=>setEmail(e.target.value)} value={email} required/>
         <input type="password" placeholder='Password' onChange={(e)=>setPassword(e.target.value)} value={password} required/>
         <button id='btn'>Login</button>
       </form>
+      <p>New Member? <CustomLink to='/org-signup'>Sign Up</CustomLink></p>
     </Container>
   )
 }
@@ -84,5 +108,15 @@ const Container = styled.div`
   button:disabled{
     filter: brightness(70%);
     background:#BA2024;
+    cursor: not-allowed;
   }
+  p{
+    font-size: 1rem;
+  }
+`
+
+const CustomLink = styled(Link)`
+  font-size: 1.1rem;
+  font-weight: 550;
+  color: #fff;
 `
