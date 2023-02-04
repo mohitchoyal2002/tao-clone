@@ -1,68 +1,30 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
 import {useNavigate} from 'react-router-dom'
 
 
-const TestLogin = () => {
-  document.title = 'TAO Demo Test'
+const OrgLogin = () => {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-
-  const navigate = useNavigate();
-
   const msg = document.getElementById('msg')
-  const btn = document.getElementById('btn')
-
-  const disable = ()=>{
-    msg.innerHTML=''
-    btn.disabled = true;
-    btn.innerText = '...'
-  }
-
-  const enable = ()=>{
-    btn.disabled = false;
-    btn.innerText = 'Take Test'
-  }
-
-
-  const login = async(e)=>{
-    e.preventDefault();
-    
-    disable()
-
-    const user = {email, password}
-    try{
-      const res = await axios.post('http://localhost:8080/login', user)
-      const loggedUser = res.data.msg;
-
-      navigate('/test', {state:{loggedUser}})
-    }
-    catch(err){
-      msg.innerHTML = 'Invalid Credentials, Please Try Again'
-      // console.log(err);
-    }
-    finally{
-     enable()
-    }
-  }
 
   return (
     <Container id = 'con'>
-      <h1>Login to Verify and Start The Test</h1>
+      <h1>Welcome Again, Please Login</h1>
       <h2 id='msg'></h2>
-      <form onSubmit={login}>
+      <form>
         <input type="email" placeholder='Email' onChange={(e)=>setEmail(e.target.value)} value={email} required/>
         <input type="password" placeholder='Password' onChange={(e)=>setPassword(e.target.value)} value={password} required/>
-        <button id='btn'>Take Test</button>
+        <button id='btn'>Login</button>
       </form>
     </Container>
   )
 }
 
-export default TestLogin
+export default OrgLogin
 
 const Container = styled.div`
   display: flex;
@@ -71,7 +33,7 @@ const Container = styled.div`
   align-items: center;
   height: 100vh;
   color: #fff;
-  background: url('/images/background.jpg');
+  background: url('/images/TakeDemo/background.jpg');
   background-position: center;
   background-size: cover;
   gap: 30px;

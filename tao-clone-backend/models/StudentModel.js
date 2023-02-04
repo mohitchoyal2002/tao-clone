@@ -1,26 +1,26 @@
 const mongoose = require('mongoose')
 
-const userTemplete = mongoose.Schema({
-  name:{
+const stModel = mongoose.Schema({
+  name: {
     type: String,
     required: true
   },
-  email:{
+  email: {
     type: String,
     required: true
   },
-  phoneNo:{
+  phoneNo: {
     type: String,
     required: true
   },
-  companyName:{
+  orgName: {
     type: String,
     required: true
   },
-  password:{
+  password: {
     type: String,
     required: true
-  }
+  },
 })
 
-module.exports = mongoose.model('DemoUsers', userTemplete)
+module.exports = mongoose.model('students', stModel);

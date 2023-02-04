@@ -6,14 +6,16 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom'
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Conatainer>
-          <Route path='' element={<TestLogin/>}/>
-          <Route path='/test' element={<DemoTest/>}/>
-        </Conatainer>
-      </Routes>
-    </BrowserRouter>
+    <Conatainer>
+      <BrowserRouter>
+        <Routes>
+          
+            <Route path='' element={<TestLogin/>}/>
+            <Route path='/test' element={<DemoTest/>}/>
+          
+        </Routes>
+      </BrowserRouter>
+    </Conatainer>
   );
 }
 

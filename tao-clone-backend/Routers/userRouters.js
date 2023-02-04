@@ -12,15 +12,12 @@ router.post('/demo', async(req, res)=>{
   let user = {name: name, email: email, phoneNo: phoneNo,  companyName: companyName, password: password}
   try{
     user = await userTemplete.findOne({email: email})
-    console.log(user);
     if(user == null){
       user = {name: name, email: email, phoneNo: phoneNo,  companyName: companyName, password: password}
       const userTempleteCopy = new userTemplete(user);
       const save = await userTempleteCopy.save();
     }
-    console.log("Saved");
     const data = await sendEmail(user)
-    console.log('mail sent');
     res.status(200).json({data: "Email has been sent to your email id check the link and the password"})
   }
   catch(err){

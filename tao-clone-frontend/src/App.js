@@ -7,6 +7,9 @@ import Resources, { Resourcedown } from './Components/Resources/Resources'
 import KnowledgeBase, { Resou } from './Components/KnowledgeBase/KnowledgeBase'
 import TakeDemo from './Components/TakeDemo/TakeDemo'
 import Footer from './Components/Footer';
+import OrgLogin from './Components/Sign User/OrgLogin'
+import OrgSignUp from './Components/Sign User/OrgSignUp'
+
 
 
 function App() {
@@ -19,6 +22,8 @@ function App() {
           <Route path='/resources' element={<><Resources/> <Resourcedown/></>}/>
           <Route path='/knowledge-base' element = {<><KnowledgeBase/> <Resou/> </>}/>
           <Route path='/demo' element={<TakeDemo/>}/>
+          <Route path='/org-login' element = {<OrgLogin/>}/>
+          <Route path='/org-signup' element = {<OrgSignUp/>}/>
         </Routes>
         <Footer/>
     </Wrap>

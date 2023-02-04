@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const userTemplete = mongoose.Schema({
+const orgModel = mongoose.Schema({
   name:{
     type: String,
     required: true
@@ -13,14 +13,9 @@ const userTemplete = mongoose.Schema({
     type: String,
     required: true
   },
-  companyName:{
-    type: String,
-    required: true
-  },
   password:{
     type: String,
     required: true
   }
 })
-
-module.exports = mongoose.model('DemoUsers', userTemplete)
+module.exports = mongoose.model('organizations', orgModel)
