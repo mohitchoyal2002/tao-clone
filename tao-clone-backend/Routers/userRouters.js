@@ -3,6 +3,7 @@ const userTemplete = require('../models/userModels')
 const passwordGenerator = require('password-generator')
 const sendEmail = require('../Controller/sendMail');
 const { createToken, validateToken } = require('../Controller/JWT');
+const DemoTest = require('../models/DemoTest')
 
 const router = express.Router();
 
@@ -39,9 +40,19 @@ router.post('/login', async(req, res)=>{
       res.status(200).json({msg: user})
     }
   }catch (err) {
+    console.log(err);
     res.status(400).json({msg: `Error: ${err}`})    
   }
 })
 
+router.get('/test', async(req, res)=>{
+  try{
+    const test = await DemoTest.findOne()
+    res.json(test)
+  }
+  catch(err){
+    res.status(400).json(err)
+  }
+})
 
 module.exports = router;

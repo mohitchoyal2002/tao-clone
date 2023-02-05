@@ -9,6 +9,7 @@ import TakeDemo from './Components/TakeDemo/TakeDemo'
 import Footer from './Components/Footer';
 import OrgLogin from './Components/Sign User/OrgLogin'
 import OrgSignUp from './Components/Sign User/OrgSignUp'
+import OrgDashboard from './Components/Org Dashboard/OrgDashboard';
 
 
 
@@ -24,6 +25,7 @@ function App() {
           <Route path='/demo' element={<TakeDemo/>}/>
           <Route path='/org-login' element = {<OrgLogin/>}/>
           <Route path='/org-signup' element = {<OrgSignUp/>}/>
+          <Route path='/org-dashboard' element={<OrgDashboard/>}/>
         </Routes>
         <Footer/>
     </Wrap>

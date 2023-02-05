@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 
 
 const OrgLogin = () => {
 
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState('mohitchoyal128@gmail.com')
   const [password, setPassword] = useState('')
+
+
+  const navigate = useNavigate()
 
   const msg = document.getElementById('msg')
   const btn = document.getElementById('btn')
@@ -18,9 +21,11 @@ const OrgLogin = () => {
 
     try{
       btn.disabled = true;
-      const res = await axios.post('http://localhost:8080/org/login', org)
-      console.log(res.data)
-      msg.innerText = res.data
+      const res = await axios.post('http://localhost:8080/org/login', org, {withCredentials: true})
+      msg.innerText = res.data.msg
+      if(res.data.msg === 'Logged in'){
+        navigate('/org-dashboard')        
+      }
     }
     catch(err){
       console.log(err);

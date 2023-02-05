@@ -29,6 +29,7 @@ const OrgSignUp = () => {
 
   const disable = ()=>{
     btn.disabled = true;
+    msg.innerText = ''
   }
   const enable = ()=>{
     setOrgName('')
@@ -37,7 +38,6 @@ const OrgSignUp = () => {
     setPassword('')
     setRe_password('')
     btn.disabled = false;
-    msg.innerText = ''
   }
 
   const signup = async(e)=>{
@@ -51,8 +51,8 @@ const OrgSignUp = () => {
       msg.style.color = 'green'
     }
     catch(err){
-      msg.innerText='This email id has already registered'
-      msg.style.color='red'
+      msg.innerText='This email id has already registered';
+      msg.style.color='red';
     }
     finally{
       enable()

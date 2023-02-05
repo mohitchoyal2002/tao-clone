@@ -1,15 +1,11 @@
 const mongoose = require('mongoose')
 
-const testModel = mongoose.Schema({
-  orgName: {
-    type: String,
-    required: true
-  },
-  duration:{
+const DemoTest = mongoose.Schema({
+  duration: {
     type: Number,
     required: true
   },
-  questions: [
+  questions:[
     {
       statement:{
         type: String,
@@ -29,4 +25,4 @@ const testModel = mongoose.Schema({
   ]
 })
 
-module.exports = mongoose.model('tests', testModel)
+module.exports = mongoose.model('DemoTest', DemoTest)
