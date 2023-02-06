@@ -37,7 +37,7 @@ const TakeDemo = () => {
       companyName: company,
     };
     try {
-      const res = await axios.post("http://localhost:8080/demo", user);
+      const res = await axios.post("/demo", user);
       console.log(res);
       if (res.status === 200) {
         declareBlank();

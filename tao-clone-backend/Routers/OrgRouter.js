@@ -1,6 +1,7 @@
 const express = require('express')
 const orgRouter = express.Router()
 const orgModel = require('../models/OrganizationModel')
+const TestModel = require('../models/TestModel')
 const bcrypt = require('bcrypt')
 const {createOrgToken, validateToken} = require('../Controller/JWT')
 
@@ -60,7 +61,7 @@ orgRouter.post('/login', async(req, res)=>{
 })
 
 orgRouter.get('/check', validateToken, (req, res)=>{
-  const token = req.body.valid;
+  const token = req.body.token.valid;
   
   res.json({token: token})
 })

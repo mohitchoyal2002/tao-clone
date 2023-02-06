@@ -14,7 +14,7 @@ const DemoTest = () => {
 
   useEffect(()=>{
     setLoad(true)
-    axios.get('http://localhost:8080/test')
+    axios.get('/test')
     .then((res)=>{
       setTest(res.data)
       setQuestions(res.data.questions)

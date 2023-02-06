@@ -46,7 +46,7 @@ const OrgSignUp = () => {
     const org = {name: orgName, email: email, phoneNo: phoneNo, password: password}
 
     try{
-      const res = await axios.post('http://localhost:8080/org/signup', org)
+      const res = await axios.post('/org/signup', org)
       msg.innerText = 'You have been Registered, Please Login'
       msg.style.color = 'green'
     }

@@ -35,7 +35,7 @@ const TestLogin = () => {
 
     const user = {email, password}
     try{
-      const res = await axios.post('http://localhost:8080/login', user, {withCredentials: true})
+      const res = await axios.post('/login', user, {withCredentials: true})
       const loggedUser = res.data.msg;
 
       navigate('/test', {state:{loggedUser}})

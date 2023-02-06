@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const router = require('./Routers/userRouters');
 const orgRouter = require('./Routers/OrgRouter')
 const cookieParser = require('cookie-parser')
+const testRouter = require('./Routers/TestRouter')
 
 const app = express();
 app.use(express.json())
@@ -26,6 +27,7 @@ const port = process.env.PORT || 4000
 app.use('/', router)
 
 app.use('/org', orgRouter)
+app.use('/org', testRouter)
 
 app.listen(port, ()=>{
   console.log(`Server is Up and Running at Port: ${port}`);

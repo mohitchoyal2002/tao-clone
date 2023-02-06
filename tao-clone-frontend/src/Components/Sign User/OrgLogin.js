@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
 import {Link, useNavigate} from 'react-router-dom'
@@ -6,11 +6,20 @@ import {Link, useNavigate} from 'react-router-dom'
 
 const OrgLogin = () => {
 
-  const [email, setEmail] = useState('mohitchoyal128@gmail.com')
+  const [email, setEmail] = useState()
   const [password, setPassword] = useState('')
-
-
   const navigate = useNavigate()
+
+  useEffect(()=>{
+    axios.get('/org/check')
+    .then((res)=>{
+      navigate('/org-dashboard')
+    })
+    .then((err)=>{
+      console.log(err);
+    })
+  }, [])
+
 
   const msg = document.getElementById('msg')
   const btn = document.getElementById('btn')
@@ -21,7 +30,7 @@ const OrgLogin = () => {
 
     try{
       btn.disabled = true;
-      const res = await axios.post('http://localhost:8080/org/login', org, {withCredentials: true})
+      const res = await axios.post('/org/login', org, {withCredentials: true})
       msg.innerText = res.data.msg
       if(res.data.msg === 'Logged in'){
         navigate('/org-dashboard')        
