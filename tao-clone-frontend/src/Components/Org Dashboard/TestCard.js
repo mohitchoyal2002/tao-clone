@@ -4,10 +4,19 @@ import styled from 'styled-components'
 
 const TestCard = (props) => {
   const [test, setTest] = useState(props.test)
-  const [hour, setHour] = useState(10)
-  const [min, setMin] = useState(10)
-  const [sec, setSec] = useState(10)
-  const [days, setDays] = useState(10)
+  let now = new Date()
+  const created_date = new Date(test.startTime)
+  let time = created_date - now
+  
+  const day = Math.floor(time/(1000*60*60*24))
+  const hr = Math.floor(time/(1000*60*60)%24)
+  const m = Math.floor(time/(1000*60)%60)
+  const s = Math.floor(time/(1000)%60)
+
+  const [hour, setHour] = useState(hr)
+  const [min, setMin] = useState(m)
+  const [sec, setSec] = useState(s)
+  const [days, setDays] = useState(day)
   
   const hours = Math.floor(test.duration/3600)
   const minute = Math.floor((test.duration/60)%60)
@@ -18,9 +27,9 @@ const TestCard = (props) => {
 
   useEffect(()=>{
       interval = setInterval(()=>{
-      const now = new Date()
-      const created_date = new Date(test.startTime)
-      const time = created_date - now
+      now = new Date()
+      // const created_date = new Date(test.startTime)
+      time = created_date - now
       
       setDays(Math.floor(time/(1000*60*60*24)))
       setHour(Math.floor(time/(1000*60*60)%24))
@@ -37,13 +46,6 @@ const TestCard = (props) => {
       setHour(0)
       setMin(0)
       setSec(0)
-      axios.put('org/update-status', {name:test.name, orgName: test.orgName, status: 'Started'})
-      .then((res)=>{
-        console.log(res.data);
-      })
-      .catch((err)=>{
-        console.log(err);
-      })
     }
   }, [days,hour, min, sec])
 

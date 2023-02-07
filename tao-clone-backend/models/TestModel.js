@@ -43,7 +43,7 @@ const testModel = mongoose.Schema({
   startTime:{
     type: Date,
     required: true,
-    default: Math.floor(Date.now() + (1000*60*5))
+    default: Math.floor(Date.now() + (1000*60*2))
   },
   students: [
     {
