@@ -27,4 +27,15 @@ testRouter.get('/tests', validateToken, async(req, res)=>{
   }
 })
 
+testRouter.put('/update-status', async(req, res)=>{
+  const {name, orgName, status} = req.body
+  try{
+    const data = await TestModel.updateOne({name: name, orgName: orgName}, {status: status})
+    res.status(200).json({"updated Data": data})
+  }
+  catch(err){
+    res.status(400).json({Error: err})
+  }
+})
+
 module.exports = testRouter
