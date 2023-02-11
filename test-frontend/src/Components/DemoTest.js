@@ -2,36 +2,39 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
-import Buttons from "./Buttons";
 
 const DemoTest = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  document.title = 'Demo Test'
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState({});
   const [newdata, setNewdata] = useState({});
-  let questions = []
+  const [loading, setLoading] = useState(true);
+  const [questions, setQuestions] = useState([]);
 
   useEffect(() => {
-    axios.get('/test')
-    .then((res)=>{
-      setNewdata(res.data)
-      questions = res.data.questions
-      console.log(questions);
-    })
-    .catch((err)=>{
-      console.log(err);
-      navigate('/')
-    })
+    axios
+      .get("/test")
+      .then((res) => {
+        setNewdata(res.data);
+        setQuestions(res.data.questions);
+        // console.log(questions.length);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        navigate("/");
+      });
   }, []);
 
   const { state } = useLocation();
-  if(state == null){
-    navigate('/')
+  if (state == null) {
+    navigate("/");
   }
   const { loggedUser } = state;
 
-  const [remainingTime, setRemainingTime] = useState(); // 10 minutes
+  // const [remainingTime, setRemainingTime] = useState(); // 10 minutes
 
   const handlePrevClick = () => {
     if (currentQuestionIndex > 0) {
@@ -44,109 +47,114 @@ const DemoTest = () => {
     }
   };
   const handleSubmitClick = () => {
-    // Handle the submit logic
+    navigate('/result', {state:{answers, newdata, loggedUser}})
   };
-  const handleOptionClick = option => {
+  const handleOptionClick = (option) => {
     setAnswers({ ...answers, [currentQuestionIndex]: option });
   };
   const handleResetClick = () => {
     setAnswers({});
     setCurrentQuestionIndex(currentQuestionIndex);
-
   };
 
+  if (loading) {
+    return (
+      <Load id="loading">
+        <img src="/images/load.svg" alt="" />
+      </Load>
+    );
+  } else {
+    return (
+      <Wrap>
+        <Profile>
+          <Name>
+            <h2>Name: {loggedUser.name}</h2>
+            <h3>Company: {loggedUser.companyName}</h3>
+          </Name>
+          <Name>
+            <h1>Demo Test</h1>
+            <h3>Remaining Time:</h3>
+          </Name>
+          <Name>
+            <h3>Email: {loggedUser.email}</h3>
+            <h3>Phone: {loggedUser.phoneNo}</h3>
+          </Name>
+        </Profile>
+        <Container>
+          <QueContainer>
+            <Question>
+              <p>
+                Question {currentQuestionIndex + 1} of {questions.length}
+              </p>
+              {questions.map((question, index) => {
+                if (index === currentQuestionIndex) {
+                  return (
+                    <div key={index} id = 'question'>
+                      <h2>{question.statement}</h2>
 
-  
+                      {question.options.map((option, optionIndex) => (
+                        <p
+                          id="option"
+                          key={optionIndex}
+                          onClick={() => handleOptionClick(option)}
+                          style={{
+                            backgroundColor:
+                              answers[currentQuestionIndex] === option
+                                ? "lightblue"
+                                : "",
+                          }}
+                        >
+                          {optionIndex + 1}: {option}
+                        </p>
+                      ))}
+                    </div>
+                  );
+                } else {
+                  return null;
+                }
+              })}
+              <Button id="reset" onClick={handleResetClick}>Reset</Button>
+            </Question>
 
-  return (
-    <Wrap>
-      <Profile>
-        <Name>
-          <h2>Name: {loggedUser.name}</h2>
-          <h3>Company: {loggedUser.companyName}</h3>
-        </Name>
-        <Name>
-          <h1>Demo Test</h1>
-          <h3>Remaining Time:</h3>
+            <BottomNav>
+              <Button onClick={handlePrevClick}>Previous</Button>
 
-        </Name>
-        <Name>
-          <h3>Email: {loggedUser.email}</h3>
-          <h3>Phone: {loggedUser.phoneNo}</h3>
-        </Name>
-      </Profile>
-      <Container>
-        <QueContainer>
+              <Button onClick={handleSubmitClick}>Submit</Button>
 
-          <Question>
-            <p>Question {currentQuestionIndex + 1} of {questions.length}</p>
+              <Button onClick={handleNextClick}>Next</Button>
+            </BottomNav>
+          </QueContainer>
+          <Navbar>
             {questions.map((question, index) => {
-              if (index === currentQuestionIndex) {
-                return (
-                  <div key={index}>
-                    <h3>{question.statement}</h3>
-
-
-                    {question.questions[0].options.map((option, optionIndex) => (
-                      <p key={optionIndex} onClick={() => handleOptionClick(option)}
-                        style={{
-                          backgroundColor:
-                            answers[currentQuestionIndex] === option ? "lightblue" : ""
-                        }}>{optionIndex + 1}: {option}</p>
-                    ))}
-                  </div>
-                );
-              }
-              return null;
+              return (
+                <Buttons key={index} onClick={() => setCurrentQuestionIndex(index)}>{index+1}</Buttons>
+              );
             })}
-
-
-
-
-
-            <Button onClick={handleResetClick}>Reset</Button>
-          </Question>
-
-          <BottomNav>
-            <Button onClick={handlePrevClick}>
-              Previous
-            </Button>
-
-            <Button onClick={handleSubmitClick}>
-              Submit
-            </Button>
-
-            <Button onClick={handleNextClick}>
-              Next
-            </Button>
-          </BottomNav>
-
-        </QueContainer>
-        <Navbar>
-
-          {/* {newdata.map((number, id) => (
-            <Buttons key={id} onClick={() => setCurrentQuestionIndex(id)}>{newdata.number}
-
-              {id + 1}
-            </Buttons>
-          ))} */}
-
-          {/* {newdata.map((number, id) => (
-            <Buttons key={id} onClick={() => setCurrentQuestionIndex(id)}>
-
-              {id + 1}
-            </Buttons>
-          ))} */}
-
-
-
-        </Navbar>
-      </Container>
-    </Wrap>
-  );
+          </Navbar>
+        </Container>
+      </Wrap>
+    );
+  }
 };
 
 export default DemoTest;
+
+const Load = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  opacity: 0.5;
+  img {
+    height: 300px;
+    width: 300px;
+  }
+`;
 
 const Wrap = styled.div`
   display: flex;
@@ -205,7 +213,21 @@ const Question = styled.div`
   margin: 50px;
   background: white;
   color: #000;
-  gap: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  #question{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  #option{
+    cursor: pointer;
+    padding: 10px 0;
+  }
+  #reset{
+    width: 150px;
+  }
 `;
 
 const Navbar = styled.div`
@@ -245,3 +267,11 @@ const Button = styled.button`
     color: #fff;
   }
 `;
+const Buttons = styled.button`
+  height: 50px;
+  width: 50px;
+  border: none;
+  border-radius: 5px;
+  background: #fff;
+  cursor: pointer;
+`
