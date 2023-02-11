@@ -2,7 +2,7 @@ const express = require('express')
 const userTemplete = require('../models/userModels')
 const passwordGenerator = require('password-generator')
 const sendEmail = require('../Controller/sendMail');
-const { createToken, validateToken } = require('../Controller/JWT');
+const { createToken, validateToken, validateUser } = require('../Controller/JWT');
 const DemoTest = require('../models/DemoTest')
 
 const router = express.Router();
@@ -36,7 +36,7 @@ router.post('/login', async(req, res)=>{
     }
     else{
       const token = createToken(user)
-      res.cookie('access-token', token)
+      res.cookie('demo-user-token', token)
       res.status(200).json({msg: user})
     }
   }catch (err) {
@@ -45,7 +45,7 @@ router.post('/login', async(req, res)=>{
   }
 })
 
-router.get('/test', async(req, res)=>{
+router.get('/test',validateUser, async(req, res)=>{
   try{
     const test = await DemoTest.findOne()
     res.json(test)

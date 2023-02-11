@@ -54,7 +54,7 @@ const TestLogin = () => {
       <h1>Login to Verify and Start The Test</h1>
       <h2 id='msg'></h2>
       <form onSubmit={login}>
-        <input type="email" placeholder='Email' onChange={(e)=>setEmail(e.target.value)} value={email} required/>
+        <input type="email" placeholder='Email' autoFocus onChange={(e)=>setEmail(e.target.value)} value={email} required/>
         <input type="password" placeholder='Password' onChange={(e)=>setPassword(e.target.value)} value={password} required/>
         <button id='btn'>Take Test</button>
       </form>

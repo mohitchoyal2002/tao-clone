@@ -7,10 +7,33 @@ const createOrgToken = (org) => {
 
 const createToken = (user) => {
   const token = sign({ user: user }, process.env.SECRET_KEY, {
-    expiresIn: "15h",
+    expiresIn: "2h",
   });
   return token;
 };
+
+const validateUser = (req, res, next)=>{
+  try{
+    const token = req.cookies['demo-user-token']
+    if (token) {
+      // console.log(token);
+      const valid = verify(token, process.env.SECRET_KEY);
+      if (valid) {
+        // req.authenticated = true;
+        req.body.token = { valid };
+        next();
+      } else {
+        return res
+          .json(403)
+          .json({ msg: "Your token is invalid or experied " });
+      }
+    } else {
+      return res.status(403).json("You are not authenticated");
+    }
+  } catch (err) {
+    return res.status(400).json({ err: `An Error Occured: ${err}` });
+  }
+}
 
 const validateToken = (req, res, next) => {
   try {
@@ -36,4 +59,4 @@ const validateToken = (req, res, next) => {
   }
 };
 
-module.exports = { createOrgToken, createToken, validateToken };
+module.exports = { createOrgToken, createToken, validateToken, validateUser };

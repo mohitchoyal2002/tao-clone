@@ -1,51 +1,37 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Buttons from "./Buttons";
 
-const DemoTest = (props) => {
-  const { state } = useLocation();
-  const { loggedUser } = state;
+const DemoTest = () => {
+  const navigate = useNavigate()
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState({});
-  const [questions, setQuestions] = useState([]);
-  const [test, setTest] = useState({});
-  const [load, setLoad] = useState(false);
-  
+  const [newdata, setNewdata] = useState({});
+  let questions = []
+
   useEffect(() => {
-    setLoad(true);
-    axios
-      .get("/test")
-      .then((res) => {
-        setTest(res.data);
-        if(res.data.questions){
-          setQuestions(res.data.questions)
-        }
-      })
-      .catch((err) => [console.log(err)])
-      .finally(() => [setLoad(false)]);
+    axios.get('/test')
+    .then((res)=>{
+      setNewdata(res.data)
+      questions = res.data.questions
+      console.log(questions);
+    })
+    .catch((err)=>{
+      console.log(err);
+      navigate('/')
+    })
   }, []);
 
-  const renderQuestion = (index)=>{
-    const{statement, options, answer} = questions[index]
-    console.log("jdjk");
-    console.log(statement);
-    return(
-      <div>
-         <h1>{statement}</h1>
-         <ul>
-         {options.map(option => (
-          <>
-         {console.log(option)}
-          <li key={option}>{option}</li>
-          </>
-        ))}
-       </ul>
-       </div>
-    )
+  const { state } = useLocation();
+  if(state == null){
+    navigate('/')
   }
+  const { loggedUser } = state;
+
+  const [remainingTime, setRemainingTime] = useState(); // 10 minutes
 
   const handlePrevClick = () => {
     if (currentQuestionIndex > 0) {
@@ -60,13 +46,15 @@ const DemoTest = (props) => {
   const handleSubmitClick = () => {
     // Handle the submit logic
   };
-  const handleOptionClick = (option) => {
+  const handleOptionClick = option => {
     setAnswers({ ...answers, [currentQuestionIndex]: option });
   };
+  const handleResetClick = () => {
+    setAnswers({});
+    setCurrentQuestionIndex(currentQuestionIndex);
 
-  const renderButton = questions.map((question, index) => {
-    return <Buttons index={index} key={index} />;
-  });
+  };
+
 
   
 
@@ -79,39 +67,80 @@ const DemoTest = (props) => {
         </Name>
         <Name>
           <h1>Demo Test</h1>
+          <h3>Remaining Time:</h3>
+
         </Name>
         <Name>
-          <h3>Email: {loggedUser.email} </h3>
+          <h3>Email: {loggedUser.email}</h3>
           <h3>Phone: {loggedUser.phoneNo}</h3>
         </Name>
       </Profile>
       <Container>
         <QueContainer>
-          <Question id='que'>
 
-            {/* {questions[currentQuestionIndex].options.map((option) => (
-              <p
-                key={option}
-                onClick={() => handleOptionClick(option)}
-                style={{
-                  backgroundColor:
-                    answers[currentQuestionIndex] === option ? "lightblue" : "",
-                }}
-              >
-                {option}
-              </p>
-            ))} */}
+          <Question>
+            <p>Question {currentQuestionIndex + 1} of {questions.length}</p>
+            {questions.map((question, index) => {
+              if (index === currentQuestionIndex) {
+                return (
+                  <div key={index}>
+                    <h3>{question.statement}</h3>
+
+
+                    {question.questions[0].options.map((option, optionIndex) => (
+                      <p key={optionIndex} onClick={() => handleOptionClick(option)}
+                        style={{
+                          backgroundColor:
+                            answers[currentQuestionIndex] === option ? "lightblue" : ""
+                        }}>{optionIndex + 1}: {option}</p>
+                    ))}
+                  </div>
+                );
+              }
+              return null;
+            })}
+
+
+
+
+
+            <Button onClick={handleResetClick}>Reset</Button>
           </Question>
 
           <BottomNav>
-            <Button onClick={handlePrevClick}>Previous</Button>
+            <Button onClick={handlePrevClick}>
+              Previous
+            </Button>
 
-            <Button onClick={handleSubmitClick}>Submit</Button>
+            <Button onClick={handleSubmitClick}>
+              Submit
+            </Button>
 
-            <Button onClick={handleNextClick}>Next</Button>
+            <Button onClick={handleNextClick}>
+              Next
+            </Button>
           </BottomNav>
+
         </QueContainer>
-        <Navbar>{renderButton}</Navbar>
+        <Navbar>
+
+          {/* {newdata.map((number, id) => (
+            <Buttons key={id} onClick={() => setCurrentQuestionIndex(id)}>{newdata.number}
+
+              {id + 1}
+            </Buttons>
+          ))} */}
+
+          {/* {newdata.map((number, id) => (
+            <Buttons key={id} onClick={() => setCurrentQuestionIndex(id)}>
+
+              {id + 1}
+            </Buttons>
+          ))} */}
+
+
+
+        </Navbar>
       </Container>
     </Wrap>
   );
