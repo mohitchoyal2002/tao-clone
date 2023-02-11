@@ -41,7 +41,6 @@ const OrgDashboard = () => {
       </Title>
       <Menu>
         <button>Organize Test <EditOutlinedIcon/></button>
-        <button>Users</button>
       </Menu>
       <Tests>
         <h1>All Tests</h1>

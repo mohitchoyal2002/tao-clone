@@ -43,7 +43,7 @@ const testModel = mongoose.Schema({
   startTime:{
     type: Date,
     required: true,
-    default: Math.floor(Date.now() + (1000*60*2))
+    default: Math.floor(Date.now() + (1000*60*60*24))
   },
   students: [
     {
@@ -56,10 +56,6 @@ const testModel = mongoose.Schema({
         required: true
       },
       phoneNo: {
-        type: String,
-        required: true
-      },
-      orgName: {
         type: String,
         required: true
       },

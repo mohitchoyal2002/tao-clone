@@ -10,6 +10,8 @@ import Footer from './Components/Footer';
 import OrgLogin from './Components/Sign User/OrgLogin'
 import OrgSignUp from './Components/Sign User/OrgSignUp'
 import OrgDashboard from './Components/Org Dashboard/OrgDashboard';
+import RegisterStudent from './Components/Org Dashboard/RegisterStudent';
+import Result from './Components/Org Dashboard/Result';
 
 
 
@@ -26,6 +28,8 @@ function App() {
           <Route path='/org-login' element = {<OrgLogin/>}/>
           <Route path='/org-signup' element = {<OrgSignUp/>}/>
           <Route path='/org-dashboard' element={<OrgDashboard/>}/>
+          <Route path='/register-student' element = {<RegisterStudent/>}/>
+          <Route path='/result' element = {<Result/>}/>
         </Routes>
         <Footer/>
     </Wrap>

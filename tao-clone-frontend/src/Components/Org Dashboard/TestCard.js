@@ -1,53 +1,59 @@
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import {useNavigate} from 'react-router-dom'
 
 const TestCard = (props) => {
-  const [test, setTest] = useState(props.test)
-  let now = new Date()
-  const created_date = new Date(test.startTime)
-  let time = created_date - now
-  
-  const day = Math.floor(time/(1000*60*60*24))
-  const hr = Math.floor(time/(1000*60*60)%24)
-  const m = Math.floor(time/(1000*60)%60)
-  const s = Math.floor(time/(1000)%60)
+  const test = props.test
+  const [timeLeft, setTimeLeft] = useState();
 
-  const [hour, setHour] = useState(hr)
-  const [min, setMin] = useState(m)
-  const [sec, setSec] = useState(s)
-  const [days, setDays] = useState(day)
-  
-  const hours = Math.floor(test.duration/3600)
-  const minute = Math.floor((test.duration/60)%60)
-  const second = Math.floor((test.duration)%60) 
+  const navigate = useNavigate()
 
-  let interval = null
-  let timer = null
+  const msToHMS = (time)=>{
+    let seconds = time/ 1000;
 
-  useEffect(()=>{
-      interval = setInterval(()=>{
-      now = new Date()
-      // const created_date = new Date(test.startTime)
-      time = created_date - now
-      
-      setDays(Math.floor(time/(1000*60*60*24)))
-      setHour(Math.floor(time/(1000*60*60)%24))
-      setMin(Math.floor(time/(1000*60)%60))
-      setSec(Math.floor(time/(1000)%60))
-    }, 1000)
-    return ()=> clearInterval(interval)
-  }, [days,hour, min, sec])
+    const days = parseInt(seconds/86400)
+    seconds = seconds % 86400
 
-  useEffect(()=>{
-    if(days <= 0 && hour <= 0 && min <= 0 && sec <= 0){
-      clearInterval(interval)
-      setDays(0)
-      setHour(0)
-      setMin(0)
-      setSec(0)
+    const hours = parseInt(seconds/3600)
+    seconds = seconds % 3600;
+
+    const minutes = parseInt(seconds/60)
+    
+    seconds = parseInt(seconds % 60)
+    return `${days < 10 ? "0" + days : days} : ${hours < 10 ? "0" + hours : hours} : ${minutes < 10 ? "0" + minutes : minutes} : ${seconds < 10 ? "0" + seconds : seconds}`
+  }
+
+  const setTimeLeftHandler = ()=>{
+    const time = new Date(test.startTime) - Date.now()
+    if(time <= 0){
+      setTimeLeft(0)
     }
-  }, [days,hour, min, sec])
+    else{
+      setTimeLeft(time)
+    }
+  } 
+
+  useEffect(()=>{
+      const interval = setInterval(()=>{
+        setTimeLeftHandler()
+      }, 1000);
+      return ()=> clearInterval(interval)
+  }, [])
+
+  const getDuration = (seconds) =>{
+    const hours = parseInt(seconds/3600)
+    seconds = seconds%3600
+
+    const minutes = parseInt(seconds/60)
+    seconds = seconds%60
+
+    return ` ${hours < 10 ? "0" + hours+"hr" : hours+"hr"} : ${minutes < 10 ? "0" + minutes+"min" : minutes+"min"}`
+  } 
+
+  const registerStudent = ()=>{
+    navigate('/register-student', {state:{test}})
+  }
+
 
   return (
     <Container>
@@ -64,15 +70,16 @@ const TestCard = (props) => {
         </Data>
         <Data>
           <h3 id = 'timeStamp'>Test will start in</h3>
-          <h3 id = 'time'>{`${days< 10 ? "0"+days:days} : ${hour < 10 ? "0"+hour: hour} : ${min< 10? "0"+min: min} : ${sec < 10? "0"+sec: sec}`}</h3>
+          <h3 id = 'time'>{msToHMS(timeLeft)}</h3>
         </Data>
         <Data>
           <h3>Duration</h3>
-          <h3>{`${"0"+hours}h : ${minute<10 ? "0"+minute : minute}m : ${second<10 ? "0"+second : second}s`}</h3>
+          <h3>{getDuration(test.duration)}</h3>
         </Data>
       </Statistics>
       <Actions className='action'>
-        <button>Register the Student</button>
+        <button onClick={registerStudent}>Register the Student</button>
+        <button onClick={()=>{navigate('/result', {state:{test}})}}>See Result</button>
         <button>Start Test</button>
       </Actions>
     </Container>
