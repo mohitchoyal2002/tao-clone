@@ -12,6 +12,35 @@ const createToken = (user) => {
   return token;
 };
 
+const createStudentToken = (student)=>{
+  const token = sign({name: student.name, email: student.email, orgName: student.orgName, phoneNo: student.phoneNo}, process.env.SECRET_KEY, {expiresIn: '3h'})
+  return token
+}
+
+const validateStudentToken = (req, res, next) =>{
+  try{
+    const token = req.cookies['student-token']
+    if(!token){
+      res.status(403).json('You  are not authenticated')
+    }
+    else{
+      const valid = verify(token, process.env.SECRET_KEY);
+      if (valid) {
+        // req.authenticated = true;
+        req.body.token = { valid };
+        next();
+      } else {
+        return res
+          .json(403)
+          .json({ msg: "Your token is invalid or experied " });
+      }
+    }
+  }
+  catch(err){
+    return res.status(400).json({ err: `An Error Occured: ${err}` });
+  }
+}
+
 const validateUser = (req, res, next)=>{
   try{
     const token = req.cookies['demo-user-token']
@@ -59,4 +88,4 @@ const validateToken = (req, res, next) => {
   }
 };
 
-module.exports = { createOrgToken, createToken, validateToken, validateUser };
+module.exports = { createOrgToken, createStudentToken, validateStudentToken, createToken, validateToken, validateUser };

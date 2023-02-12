@@ -13,6 +13,11 @@ const testModel = mongoose.Schema({
     type: Number,
     required: true
   },
+  markPerQuestion:{
+    type: Number,
+    required: true,
+    default: 5
+  },
   questions:[
     {
       statement:{
@@ -62,6 +67,21 @@ const testModel = mongoose.Schema({
       password: {
         type: String,
         required: true
+      },
+      status:{
+        type: String,
+        required: true,
+        default: 'not-attempted'
+      },
+      totalAttempted:{
+        type: Number,
+        required: true,
+        default: 0
+      },
+      correctAnswer:{
+        type: Number,
+        required: true,
+        default: 0
       }
     }
   ]

@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react'
-import {useLocation, Link} from 'react-router-dom'
-import styled from 'styled-components';
+import React from 'react'
+import styled from 'styled-components'
+import {Link, useLocation} from 'react-router-dom'
 
-const DemoResult = () => {
+const MainResult = () => {
+
   const {state} = useLocation()
   const test = state.newdata
   const answers = state.answers
-  const loggedUser = state.loggedUser
+  const loggedUser = state.user
   const count = Object.keys(answers).length
   const questions = test.questions
   let correct = 0;
-  const markPerQuestion = 5;
+  const markPerQuestion = test.markPerQuestion;
 
   const getScore = ()=>{
     return( <span>{correct*markPerQuestion}</span>);
@@ -28,7 +29,7 @@ const DemoResult = () => {
 
   return (
     <Container>
-       <CustomLink to='/' fontSize='large' id='link'>Go Home</CustomLink>
+       <CustomLink to='http://localhost:3000' fontSize='large' id='link'>Go Home</CustomLink>
       <Title>
         <h1>Thank You For Attending The Test</h1>
       </Title>
@@ -37,7 +38,7 @@ const DemoResult = () => {
         <Info>
           <Left>
             <h3>Name: {loggedUser.name}</h3>
-            <h3>Organization: {loggedUser.companyName}</h3>
+            <h3>Organization: {loggedUser.orgName}</h3>
           </Left>
           <Right>
             <h3>Email: {loggedUser.email}</h3>
@@ -61,7 +62,7 @@ const DemoResult = () => {
   )
 }
 
-export default DemoResult
+export default MainResult
 
 const Container = styled.div`
   font-family: 'Roboto', sans-serif;

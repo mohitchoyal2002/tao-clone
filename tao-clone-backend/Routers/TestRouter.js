@@ -11,7 +11,8 @@ testRouter.post('/add-test', validateToken, async(req, res)=>{
   const {orgName, name} = req.body 
   const testModelCopy = new TestModel(test)
   try{
-    if(await TestModel.findOne({orgName: orgName}, {name: name})){
+    const tests = await TestModel.findOne({orgName: orgName}, {name: name})
+    if(!tests){
       res.status(400).json("Test already created")
     }
     else{
@@ -35,7 +36,7 @@ testRouter.get('/tests', validateToken, async(req, res)=>{
   }
 })
 
-testRouter.put('/update-status', async(req, res)=>{
+testRouter.put('/update-status', validateToken, async(req, res)=>{
   const {name, orgName, status} = req.body
   try{
     const data = await TestModel.updateOne({name: name, orgName: orgName}, {status: status})

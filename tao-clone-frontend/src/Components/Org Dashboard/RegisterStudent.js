@@ -83,6 +83,7 @@ const RegisterStudent = () => {
               }}
               value={name}
               autoFocus
+              required = 'true'
             />
           </div>
           <div>
@@ -94,6 +95,7 @@ const RegisterStudent = () => {
                 setEmail(e.target.value);
               }}
               value={email}
+              required = 'true'
             />
           </div>
           <div>
@@ -105,6 +107,7 @@ const RegisterStudent = () => {
                 setPhoneNo(e.target.value);
               }}
               value={phoneNo}
+              required = 'true'
             />
             </div>
             <button id="btn">Register Student</button>

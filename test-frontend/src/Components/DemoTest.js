@@ -29,10 +29,13 @@ const DemoTest = () => {
   }, []);
 
   const { state } = useLocation();
-  if (state == null) {
+  let loggedUser;
+  if (state === null) {
     navigate("/");
   }
-  const { loggedUser } = state;
+  else{
+    loggedUser = state.loggedUser;
+  }
 
   // const [remainingTime, setRemainingTime] = useState(); // 10 minutes
 
