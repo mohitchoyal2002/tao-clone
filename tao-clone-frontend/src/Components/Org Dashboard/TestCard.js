@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import {useNavigate} from 'react-router-dom'
+import axios from 'axios'
 
 const TestCard = (props) => {
   const test = props.test
@@ -34,6 +35,16 @@ const TestCard = (props) => {
   } 
 
   useEffect(()=>{
+    const start = document.getElementById('start')
+    if(test.status === 'started'){
+      start.innerText = "End Test"
+    }
+    else if(test.status === 'ended'){
+      start.innerText = 'Start Test'
+    }
+    else{
+      start.innerText = 'Start Test'
+    }
       const interval = setInterval(()=>{
         setTimeLeftHandler()
       }, 1000);
@@ -54,6 +65,19 @@ const TestCard = (props) => {
     navigate('/register-student', {state:{test}})
   }
 
+  const startTest = async()=>{
+    const name = test.name
+    const orgName = test.orgName
+    const status = test.status
+
+    try{
+      const res = await axios.put('/org/update-status', {name, orgName, status})
+      console.log(res.data);
+    }
+    catch(err){
+      console.log(err);
+    }
+  }
 
   return (
     <Container>
@@ -80,7 +104,7 @@ const TestCard = (props) => {
       <Actions className='action'>
         <button onClick={registerStudent}>Register the Student</button>
         <button onClick={()=>{navigate('/result', {state:{test}})}}>See Result</button>
-        <button>Start Test</button>
+        <button onClick={startTest} id='start'>Start Test</button>
       </Actions>
     </Container>
   )

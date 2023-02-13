@@ -6,6 +6,8 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import TestCard from './TestCard';
 
 const OrgDashboard = () => {
+  document.title = "ORG Dashboard"
+
   const navigate = useNavigate()
   const [user, setUser] = useState({})
   const [tests, setTests] = useState([])
@@ -40,7 +42,7 @@ const OrgDashboard = () => {
         <span>e-assessment Dashboard</span>
       </Title>
       <Menu>
-        <button>Organize Test <EditOutlinedIcon/></button>
+        <button onClick={()=>{navigate('/organize-test')}}>Organize Test <EditOutlinedIcon/></button>
       </Menu>
       <Tests>
         <h1>All Tests</h1>

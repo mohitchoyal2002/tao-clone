@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import {Link, useLocation} from 'react-router-dom'
+import axios from 'axios'
 
 const MainResult = () => {
+
+  document.title = "Test Result"
 
   const {state} = useLocation()
   const test = state.newdata
@@ -27,9 +30,30 @@ const MainResult = () => {
     return( <span>{correct}</span>);
   }
 
+  useEffect(()=>{
+
+    const fetchData = async()=>{
+      const email = loggedUser.email
+      const orgName = loggedUser.orgName
+      const total = count
+      const correctAns = correct
+      try{
+        const res = await axios.post('/student/set-result', {email, orgName, total, correctAns})
+        console.log(res.data);
+      }
+      catch(err){
+        console.log(err);
+      }
+    }
+
+    setTimeout(()=>{
+      fetchData()
+    }, 1500)
+  }, [])
+
   return (
     <Container>
-       <CustomLink to='http://localhost:3000' fontSize='large' id='link'>Go Home</CustomLink>
+       <CustomLink to='/' fontSize='large' id='link'>Go Home</CustomLink>
       <Title>
         <h1>Thank You For Attending The Test</h1>
       </Title>
@@ -87,7 +111,8 @@ const ScoreCard = styled.div`
   color: #fff;
   width: 70vw;
   padding: 50px;
-  background-color: #9dcce0;
+  background: linear-gradient(139.75deg,#EB6B1E 0%,#BA2025 100%);
+  border-radius: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;

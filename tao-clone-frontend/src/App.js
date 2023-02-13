@@ -12,6 +12,7 @@ import OrgSignUp from './Components/Sign User/OrgSignUp'
 import OrgDashboard from './Components/Org Dashboard/OrgDashboard';
 import RegisterStudent from './Components/Org Dashboard/RegisterStudent';
 import Result from './Components/Org Dashboard/Result';
+import OrganizeTest from './Components/Org Dashboard/OrganizeTest';
 
 
 
@@ -30,6 +31,7 @@ function App() {
           <Route path='/org-dashboard' element={<OrgDashboard/>}/>
           <Route path='/register-student' element = {<RegisterStudent/>}/>
           <Route path='/result' element = {<Result/>}/>
+          <Route path='/organize-test' element={<OrganizeTest/>}/>
         </Routes>
         <Footer/>
     </Wrap>

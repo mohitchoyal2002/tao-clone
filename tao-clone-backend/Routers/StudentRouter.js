@@ -53,9 +53,8 @@ studentRouter.put('/update-status', async(req, res)=>{
 })
 
 
-studentRouter.get('/check-status', async(req, res)=>{
+studentRouter.post('/check-status', async(req, res)=>{
   const {email, orgName} = req.body
-  console.log(req.body);
   try {
     const sdata = await TestModel.findOne({
       orgName: orgName,
@@ -86,6 +85,30 @@ studentRouter.get('/check-status', async(req, res)=>{
 studentRouter.get('/check', validateStudentToken, async(req, res)=>{
   const token = req.body.token.valid
   res.json(token)
+})
+
+studentRouter.post('/set-result', async(req, res)=>{
+  const {email, orgName, total, correctAns} = req.body
+  try {
+    const sdata = await TestModel.findOne({
+      orgName: orgName,
+      students: { $elemMatch: { email: email} },
+    });
+    if (sdata) {
+      const sIndex = sdata.students.findIndex((student=>student.email === email))
+      if(sIndex === -1){
+        return res.status(400).json("Error: Something went wrong")
+      }
+      else{
+        sdata.students[sIndex].totalAttempted = total
+        sdata.students[sIndex].correctAnswer = correctAns
+        await sdata.save();
+        return res.json("Status-updated")
+      }
+    } 
+  } catch(err){
+    res.status(400).json(`Error: ${err}`)
+  }
 })
 
 module.exports = studentRouter;

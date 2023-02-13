@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const MainTestLogin = () => {
   document.title = "Test Login";
@@ -14,6 +14,14 @@ const MainTestLogin = () => {
 
   const msg = document.getElementById("msg");
   const btn = document.getElementById("btn");
+
+  const {state} = useLocation()
+  if(state){
+    setTimeout(()=>{
+      msg.innerText = state.error
+      msg.style.color = 'red'
+    }, 1000)
+  }
 
   const disable = () => {
     msg.innerHTML = "";
@@ -40,8 +48,7 @@ const MainTestLogin = () => {
         withCredentials: true,
       });
       const test = res.data;
-
-      navigate("/main-test", { state: { test } });
+      navigate("/main-test", { state: { test, email } });
     } catch (err) {
       msg.innerHTML = "Invalid Credentials, Please Try Again";
       console.log(err);

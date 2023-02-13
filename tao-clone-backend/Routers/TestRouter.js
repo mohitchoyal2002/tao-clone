@@ -39,8 +39,32 @@ testRouter.get('/tests', validateToken, async(req, res)=>{
 testRouter.put('/update-status', validateToken, async(req, res)=>{
   const {name, orgName, status} = req.body
   try{
-    const data = await TestModel.updateOne({name: name, orgName: orgName}, {status: status})
-    res.status(200).json({"updated Data": data})
+    let updatedStatus
+    if(status === 'not-started'){
+      updatedStatus = 'started'
+    }
+    else if(status === 'started'){
+      updatedStatus = 'ended'
+    }
+    const data = await TestModel.updateOne({name: name, orgName: orgName}, {status: updatedStatus})
+    res.status(200).json(updatedStatus)
+  }
+  catch(err){
+    res.status(400).json({Error: err})
+  }
+})
+
+testRouter.post('/test-status', async(req, res)=>{
+  const {testName, orgName} = req.body
+  try{
+    const data = await TestModel.findOne({name: testName, orgName: orgName})
+    const status = data.status
+    if(status === 'started'){
+      res.json(status)
+    }
+    else{
+      res.status(403).json(status)
+    }
   }
   catch(err){
     res.status(400).json({Error: err})

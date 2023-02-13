@@ -86,7 +86,8 @@ const ScoreCard = styled.div`
   color: #fff;
   width: 70vw;
   padding: 50px;
-  background-color: #9dcce0;
+  background: linear-gradient(139.75deg,#EB6B1E 0%,#BA2025 100%);
+  border-radius: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;

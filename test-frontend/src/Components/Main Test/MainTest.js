@@ -8,8 +8,9 @@ const MainTest = () => {
   const [answers, setAnswers] = useState({});
   const [loading, setLoading] = useState(true);
   let questions = []
-  const [user, setUser] = useState({})
-  // console.log(user);
+  let email
+  let orgName
+  let testName
 
   const navigate = useNavigate()
 
@@ -20,29 +21,55 @@ const MainTest = () => {
   }
   else{
     newdata = state.test
+    testName = newdata.name
     questions = newdata.questions
+    orgName = newdata.orgName
+    email = state.email;
   }
+
+  const [user, setUser] = useState({})
+  // console.log(user);
+
+  
   
   useEffect(() => {
-    axios
-      .get("/student/check")
-      .then((res) => {
-        setUser(res.data)
-        const data = res.data
-        console.log(data);
-        axios.get('/student/check-status', data)
-        .then((res1)=>{
-          console.log(res1.data);
-        })
-        .catch((err)=>{
-          console.log(err);
-        })
+    const fetchData = async()=>{
+      try{
+        const res1 = await axios.get('/student/check')
+        setUser(res1.data)
+        try{
+          const student = {email, orgName}
+          const res = await axios.post('/student/check-status', student)
+          try{
+            const res3 = await axios.post('/org/test-status',{orgName, testName})
+            // console.log(res3);
+          }
+          catch(err){
+            let error;
+            if(err.response.data === 'not-started'){
+              error = 'Test is not Started yet, Please Contact Your Organization'
+              navigate('/main-login', {state:{error}})
+            }
+            else{
+              error = 'Test has been Ended'
+              navigate('/main-login', {state:{error}})
+            }
+          }
+        }
+        catch(err){
+          const error = 'You have already attempted this test'
+          navigate('/main-login', {state:{error}})
+        }
         setLoading(false)
-      })
-      .catch((err) => {
+      }
+      catch(err){
         console.log(err);
-        navigate("/main-login");
-      });
+        navigate('/main-login')
+      }
+    }
+
+    fetchData()
+
   }, []);
 
   const hide = ()=>{
