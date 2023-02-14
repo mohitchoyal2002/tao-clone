@@ -42,7 +42,7 @@ const OrgDashboard = () => {
         <span>e-assessment Dashboard</span>
       </Title>
       <Menu>
-        <button onClick={()=>{navigate('/organize-test')}}>Organize Test <EditOutlinedIcon/></button>
+        <button onClick={()=>{navigate('/organize-test', {state:{user}})}}>Organize Test <EditOutlinedIcon/></button>
       </Menu>
       <Tests>
         <h1>All Tests</h1>

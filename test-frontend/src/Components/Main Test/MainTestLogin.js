@@ -9,6 +9,7 @@ const MainTestLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [orgName, setOrgName] = useState("");
+  const [testName, setTestName] = useState('')
 
   const navigate = useNavigate();
 
@@ -42,7 +43,7 @@ const MainTestLogin = () => {
 
     disable();
 
-    const user = { email, password, orgName };
+    const user = { email, password, orgName, testName };
     try {
       const res = await axios.post("/student/login", user, {
         withCredentials: true,
@@ -75,6 +76,13 @@ const MainTestLogin = () => {
           placeholder="Organization Name"
           onChange={(e) => setOrgName(e.target.value)}
           value={orgName}
+          required
+        />
+        <input
+          type="text"
+          placeholder="Test Name"
+          onChange={(e) => setTestName(e.target.value)}
+          value={testName}
           required
         />
         <input

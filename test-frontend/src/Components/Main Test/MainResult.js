@@ -13,6 +13,7 @@ const MainResult = () => {
   const loggedUser = state.user
   const count = Object.keys(answers).length
   const questions = test.questions
+  const testName = test.name
   let correct = 0;
   const markPerQuestion = test.markPerQuestion;
 
@@ -38,7 +39,7 @@ const MainResult = () => {
       const total = count
       const correctAns = correct
       try{
-        const res = await axios.post('/student/set-result', {email, orgName, total, correctAns})
+        const res = await axios.post('/student/set-result', {email, orgName, total, correctAns, testName})
         console.log(res.data);
       }
       catch(err){

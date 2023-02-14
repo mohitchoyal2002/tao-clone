@@ -4,10 +4,11 @@ const studentRouter = express.Router();
 const TestModel = require("../models/TestModel");
 
 studentRouter.post("/login", async (req, res) => {
-  const { email, password, orgName } = req.body;
+  const { email, password, orgName, testName } = req.body;
   try {
     const data = await TestModel.findOne({
       orgName: orgName,
+      name: testName,
       students: { $elemMatch: { email: email, password: password } },
     });
     if (data) {
@@ -30,18 +31,22 @@ studentRouter.post("/login", async (req, res) => {
 });
 
 studentRouter.put('/update-status', async(req, res)=>{
-  const {email, orgName} = req.body
+  const {email, orgName, testName} = req.body
+  // console.log(req.body);
   try {
     const sdata = await TestModel.findOne({
       orgName: orgName,
-      students: { $elemMatch: { email: email} },
+      name: testName,
+      students: { $elemMatch: { email: email, orgName: orgName} },
     });
     if (sdata) {
+        // console.log('djsnjk');
       const sIndex = sdata.students.findIndex((student=>student.email === email))
       if(sIndex === -1){
         return res.status(400).json("Error: Something went wrong")
       }
       else{
+        // console.log('djsnjk');
         sdata.students[sIndex].status = 'attempted'
         await sdata.save();
         return res.json("Status-updated")
@@ -54,11 +59,12 @@ studentRouter.put('/update-status', async(req, res)=>{
 
 
 studentRouter.post('/check-status', async(req, res)=>{
-  const {email, orgName} = req.body
+  const {email, orgName, testName} = req.body
   try {
     const sdata = await TestModel.findOne({
       orgName: orgName,
-      students: { $elemMatch: { email: email} },
+      name: testName,
+      students: { $elemMatch: { email: email, orgName: orgName} },
     });
     if (sdata) {
       const sIndex = sdata.students.findIndex((student=>student.email === email))
@@ -88,10 +94,11 @@ studentRouter.get('/check', validateStudentToken, async(req, res)=>{
 })
 
 studentRouter.post('/set-result', async(req, res)=>{
-  const {email, orgName, total, correctAns} = req.body
+  const {email, orgName, testName, total, correctAns} = req.body
   try {
     const sdata = await TestModel.findOne({
       orgName: orgName,
+      name: testName,
       students: { $elemMatch: { email: email} },
     });
     if (sdata) {

@@ -11,7 +11,8 @@ const testModel = mongoose.Schema({
   },
   duration:{
     type: Number,
-    required: true
+    required: true,
+    default: 3600
   },
   markPerQuestion:{
     type: Number,

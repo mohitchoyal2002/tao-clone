@@ -38,8 +38,9 @@ const MainTest = () => {
         const res1 = await axios.get('/student/check')
         setUser(res1.data)
         try{
-          const student = {email, orgName}
+          const student = {email, orgName, testName}
           const res = await axios.post('/student/check-status', student)
+          // console.log(res.data);
           try{
             const res3 = await axios.post('/org/test-status',{orgName, testName})
             // console.log(res3);
@@ -98,13 +99,17 @@ const MainTest = () => {
     const action = document.querySelector('.action')
     action.disabled = true
     try{
-      const res = await axios.put('/student/update-status', user)
+      const newUser = {orgName: orgName, email: user.email, testName: testName}
+      // console.log(newUser);
+      const res = await axios.put('/student/update-status', newUser)
+      // console.log('dsjknkj');
       navigate('/main-result', {state:{answers, newdata, user}})
     }
     catch(err){
       console.log(err);
     }
     finally{
+      console.log("finally");
       const action = document.querySelector('.action')
       action.disabled = false
     }

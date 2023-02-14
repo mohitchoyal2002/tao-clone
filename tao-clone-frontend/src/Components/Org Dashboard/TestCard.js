@@ -36,15 +36,6 @@ const TestCard = (props) => {
 
   useEffect(()=>{
     const start = document.getElementById('start')
-    if(test.status === 'started'){
-      start.innerText = "End Test"
-    }
-    else if(test.status === 'ended'){
-      start.innerText = 'Start Test'
-    }
-    else{
-      start.innerText = 'Start Test'
-    }
       const interval = setInterval(()=>{
         setTimeLeftHandler()
       }, 1000);
@@ -104,7 +95,7 @@ const TestCard = (props) => {
       <Actions className='action'>
         <button onClick={registerStudent}>Register the Student</button>
         <button onClick={()=>{navigate('/result', {state:{test}})}}>See Result</button>
-        <button onClick={startTest} id='start'>Start Test</button>
+        <button onClick={startTest} id='start'>Start Test/End Test</button>
       </Actions>
     </Container>
   )

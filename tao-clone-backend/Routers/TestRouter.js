@@ -11,8 +11,8 @@ testRouter.post('/add-test', validateToken, async(req, res)=>{
   const {orgName, name} = req.body 
   const testModelCopy = new TestModel(test)
   try{
-    const tests = await TestModel.findOne({orgName: orgName}, {name: name})
-    if(!tests){
+    const tests = await TestModel.findOne({orgName: orgName, name: name} )
+    if(tests){
       res.status(400).json("Test already created")
     }
     else{
@@ -42,6 +42,7 @@ testRouter.put('/update-status', validateToken, async(req, res)=>{
     let updatedStatus
     if(status === 'not-started'){
       updatedStatus = 'started'
+      const response = await TestModel.updateOne({name: name, orgName: orgName}, {startTime: Date.now()})
     }
     else if(status === 'started'){
       updatedStatus = 'ended'

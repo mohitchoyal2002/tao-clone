@@ -45,7 +45,7 @@ const Header = () => {
         </Logo>
         <Menu>
             <Lang>
-                <CustomLink id='en'>
+                {/* <CustomLink id='en'>
                     <img src="/images/en.svg" alt="" />
                     <span>EN</span>
                 </CustomLink>
@@ -60,7 +60,7 @@ const Header = () => {
                 <CustomLink id='ja'>
                     <img src="/images/jp.svg" alt="" />
                     <span>JA</span>
-                </CustomLink>
+                </CustomLink> */}
                 <Search>
                     <Bar id='bar'>
                         <input type="text" placeholder='Search' onChange={(e)=>setSearch(e.target.value)} value={search}/>
